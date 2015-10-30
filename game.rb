@@ -1,3 +1,5 @@
+require 'colorize'
+
 # ======================================
 #
 #  Game class
@@ -34,7 +36,7 @@ class Game
   #
   # ======================================
   def display_lost_round_message
-    puts "#{current_player.name} lost and their score is now #{current_player.score}"
+    puts "#{current_player.name} lost and their score is now #{current_player.score}".red
 
   end
 
@@ -44,7 +46,7 @@ class Game
   #
   # ======================================
   def display_won_round_message
-      puts "#{current_player.name} earned a point and their score is now #{current_player.score}"
+      puts "#{current_player.name} earned a point and their score is now #{current_player.score}".green
 
   end
 
@@ -66,7 +68,7 @@ class Game
   # ======================================
   def actions_when_game_is_lost
     puts ""
-    puts "GAME OVER"
+    puts "GAME OVER".red
     self.quit_game = true
   end
 

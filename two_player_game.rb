@@ -49,7 +49,8 @@
 
 # Add colour to your output.
 # A simple yet acceptable approach is to output bad outcomes as red
-# and good outcomes as green.
+# and good outcomes as green.\
+
 
 require './player.rb'
 require './question.rb'
