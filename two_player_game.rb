@@ -51,52 +51,58 @@
 # A simple yet acceptable approach is to output bad outcomes as red
 # and good outcomes as green.
 
+require './player.rb'
+require './question.rb'
 require './utilities.rb'
+require './game.rb'
 
 quit_program = false
 @player_two = initialize_player
 @player_one = initialize_player
 
-get_player_name(1, @player_one)
-get_player_name(2, @player_two)
+
+@player_one.get_player_name(1)
+@player_two.get_player_name(2)
+
+@game = initialize_game
 
 while !quit_program do
 
-  initialize_score(@player_one)
-  initialize_score(@player_two)
+  @player_one.initialize_score
+  @player_two.initialize_score
 
-  @current_player = @player_one
+  @game.reinitialize_game(@player_one)
 
-  quit_game = false
+  while !@game.quit_game do
 
-  print_out_start_of_game
+    @question = initialize_question
 
-  while !quit_game do
+    @question.generate_question(@game.current_player)
 
-    @question = generate_question(@current_player)
+    @question.prompt_player_for_answer
 
-    prompt_player_for_answer(@question)
-
-    turn_result = verify_answer(@question, @current_player)
+    turn_result = @question.verify_answer(@game.current_player)
 
     if turn_result == "lost round"
 
-      puts "#{@current_player.name} lost and their score is now #{@current_player.score}"
+      @game.display_lost_round_message
 
-      if @current_player.score == 0
-        puts "GAME OVER"
-        quit_game = true
+      if @game.current_player.lost_game?
+        @game.actions_when_game_is_lost
       end
 
-    else
-      puts "#{@current_player.name} earned a point and their score is now #{@current_player.score}"
+    else   #  won round
+
+      @game.display_won_round_message
+
     end
 
-    @current_player = @current_player == @player_one ? @player_two : @player_one
+    # end of round
+    @game.switch_players(@player_one, @player_two)
 
   end
 
-  quit_program = !another_game?
+  quit_program = !@game.another_game?
 
 end
 
